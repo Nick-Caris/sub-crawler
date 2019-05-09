@@ -15,4 +15,10 @@ url = 'https://www.subway.com/nl-NL/MenuNutrition/Menu/Sub-of-the-Day'
 request = urllib.request.Request(url, headers=hdr)
 page = urllib.request.urlopen(request)
 soup = BeautifulSoup(page, 'html.parser')
-print(soup.find_all('h3', {'class': 'menu-cat-prod-title'}))
+
+rawData = soup.find_all('h3', {'class': 'menu-cat-prod-title'})
+
+
+data = list(map(lambda x: x.text, rawData))
+
+print(data)
