@@ -13,11 +13,10 @@ hdr = {
 url = 'https://www.subway.com/nl-NL/MenuNutrition/Menu/Sub-of-the-Day'
 
 request = urllib.request.Request(url, headers=hdr)
+
+
 def crawl():
     page = urllib.request.urlopen(request)
     soup = BeautifulSoup(page, 'html.parser')
-
     rawData = soup.find_all('h3', {'class': 'menu-cat-prod-title'})
-
-
     return list(map(lambda x: x.text, rawData))
