@@ -1,4 +1,5 @@
 import urllib
+from functools import lru_cache
 
 from bs4 import BeautifulSoup
 
@@ -14,9 +15,10 @@ url = 'https://www.subway.com/nl-NL/MenuNutrition/Menu/Sub-of-the-Day'
 
 request = urllib.request.Request(url, headers=hdr)
 
-
-def crawl():
+@lru_cache(maxsize=1)
+def crawl(weeknr):
+    print("New Week!, getting a new list")
     page = urllib.request.urlopen(request)
-    soup = BeautifulSoup(page, 'html.parser')
-    rawData = soup.find_all('h3', {'class': 'menu-cat-prod-title'})
-    return list(map(lambda x: x.text, rawData))
+    rawData = BeautifulSoup(page, 'html.parser').find_all(
+        'h3', {'class': 'menu-cat-prod-title'})
+    return [x.text for x in rawData]
